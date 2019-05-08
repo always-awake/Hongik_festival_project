@@ -9,7 +9,7 @@ class User(models.Model):
         ('male', 'Male'),
         ('female', 'Female'),
     )
-    profile_image = models.ImageField(blank=True, null=True)
+    profile_image = models.ImageField(upload_to=f'profile_images/', blank=True, null=True)
     name = models.CharField(max_length=255, null=True)
     bio = models.TextField(blank=True, null=True) # 짧은 자기소개
     phone = models.CharField(max_length=140, blank=True, null=True)
@@ -26,3 +26,12 @@ class UserLike(TimeStampedModel):
 
     def __str__(self):
         return f'{self.userlike_to.id}-{self.userlike_from.id}'
+
+
+class Letter(TimeStampedModel):
+    """ Letter Model """
+    letter_to = models.ForeignKey(User, on_delete=models.SET_DEFAULT, null=True, default='알수없음')
+    letter_from = models.ForeignObject(User, on_delete=models.SET_DEFAULT, null=True, default='알수없음')
+    text = models.TextField(null=True)
+    check = models.BooleanField(default=False)
+    
