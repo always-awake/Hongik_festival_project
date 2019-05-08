@@ -4,6 +4,9 @@ from django.conf import settings
 from django.db import models
 from posts.models import TimeStampedModel
 
+
+# AbstractUser은 장고에 기본적으로 있는 유저 모델입니다.
+# 이 모델은 유용한 필드들을 미리 지정해놓았기 때문에 이 모델을 상속받고, 필요한 필드들을 추가했습니다.
 class User(AbstractUser):
     """ User Model """
     GENDER_CHOICES = (
