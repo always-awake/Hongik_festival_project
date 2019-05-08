@@ -10,3 +10,12 @@ class UserAdmin(admin.ModelAdmin):
         'gender',
         'phone',
     )
+
+
+@admin.register(models.UserLike)
+class UserLike(admin.Model):
+    list_display = (
+        'id',
+        'userlike_to',
+        'userlike_from',
+    )

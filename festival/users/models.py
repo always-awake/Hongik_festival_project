@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 from django.db import models
-
+from festival.posts.models import TimeStampedModel
 
 class User(models.Model):
     """ User Model """
@@ -17,4 +17,12 @@ class User(models.Model):
 
     def __str__(self):
         return self.username
-    
+
+
+class UserLike(TimeStampedModel):
+    """  UserLike Model"""
+    userlike_to = models.ForeignKey(User, on_delete=models.PROTECT, null=True)
+    userlike_from = models.ForeignObject(User, on_delete=models.PROTECT, null=True)
+
+    def __str__(self):
+        return f'{self.userlike_to.id}-{self.userlike_from.id}'
