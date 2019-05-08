@@ -22,7 +22,7 @@ class Post(TimeStampedModel):
         null=True, 
         related_name='posts'
         )
-    image = models.ImageField(upload_to=f'posts/')
+    image = models.ImageField(upload_to=f'posts/', blank=True, null=True)
     text = models.TextField(max_length=200)
     how_many = models.IntegerField(default=1) # 몇대몇 미팅을 구하는지 인원수 
     activate = models.BooleanField(default=True) # 미팅대상을 구했으면 False, 구하고 있는 중이면 True

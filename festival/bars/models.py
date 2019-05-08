@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.db import models
-from festival.posts.models import TimeStampedModel
+from posts.models import TimeStampedModel
 
 
 class Bar(TimeStampedModel):
@@ -17,4 +17,4 @@ class Bar(TimeStampedModel):
 class BarLike(TimeStampedModel):
     """ BarLike Model """
     bar = models.ForeignKey(Bar, on_delete=models.CASCADE, related_name='likes')
-    creator = models.ForeignKey(settings.AUTH_USER_MODEL)
+    creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)

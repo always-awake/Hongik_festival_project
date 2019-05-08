@@ -13,7 +13,7 @@ class UserAdmin(admin.ModelAdmin):
 
 
 @admin.register(models.UserLike)
-class UserLike(admin.Model):
+class UserLike(admin.ModelAdmin):
     list_display = (
         'id',
         'userlike_to',

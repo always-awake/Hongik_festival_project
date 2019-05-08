@@ -2,9 +2,9 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 from django.db import models
-from festival.posts.models import TimeStampedModel
+from posts.models import TimeStampedModel
 
-class User(models.Model):
+class User(AbstractUser):
     """ User Model """
     GENDER_CHOICES = (
         ('male', 'Male'),
@@ -42,10 +42,10 @@ class UserLike(TimeStampedModel):
         null=True, 
         related_name='userlike_to' # User 모델에서 UserLike를 불러올 때 해당 이름으로 부를 수 있음
         ) # 유저 좋아요 받는 대상 유저
-    userlike_from = models.ForeignObject(
+    userlike_from = models.ForeignKey(
         settings.AUTH_USER_MODEL, 
         on_delete=models.PROTECT, 
-        null=True
+        null=True,
         ) # 유저 좋아요 보내는 유저
 
     def __str__(self):
@@ -61,7 +61,7 @@ class Letter(TimeStampedModel):
         default='알수없음', 
         related_name='letter_to'
         )
-    letter_from = models.ForeignObject(
+    letter_from = models.ForeignKey(
         settings.AUTH_USER_MODEL, 
         on_delete=models.SET_DEFAULT, 
         null=True, 
