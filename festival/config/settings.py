@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'posts', # 다대다 미팅 앱
     'bars', # 술집 앱
     'users', # 유저 앱
+    'board', #게시판
 ]
 
 MIDDLEWARE = [
