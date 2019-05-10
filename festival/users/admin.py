@@ -13,9 +13,19 @@ class UserAdmin(admin.ModelAdmin):
 
 
 @admin.register(models.UserLike)
-class UserLike(admin.ModelAdmin):
+class UserLikeAdmin(admin.ModelAdmin):
     list_display = (
         'id',
         'userlike_to',
         'userlike_from',
+    )
+
+
+@admin.register(models.Letter)
+class LetterAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'letter_to',
+        'letter_from',
+        'check',
     )
