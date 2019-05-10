@@ -1,0 +1,27 @@
+
+
+
+
+<a href="signup">signup</a>
+<br>
+<br>
+{% if user.is_authenticated %}
+<a href="logout?next=/users">logout</a>
+{% else %}
+<a href="login">login</a>
+{% endif %}
+
+<br>
+{{user.name}}
+<br>
+{{user.username}}
+<br>
+{{user.gender}}
+<br>
+{{user.phone}}
+<br>
+<img src="{{ user.profile_image.url }}" width="240px" alt="">
+
+{{user.userlike_count}}
+<br>
+{{user.letter_count}}
