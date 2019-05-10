@@ -72,3 +72,5 @@ class Letter(TimeStampedModel):
     text = models.TextField(null=True)
     check = models.BooleanField(default=False) # letter_to 유저가 해당 쪽지를 확인했는지 체그하는 필드
     
+    def __str__(self):
+        return f'{self.letter_to.name}-{self.letter_from.name}'

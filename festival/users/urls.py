@@ -8,8 +8,9 @@ from . import views
 app_name = 'users'
 urlpatterns = [
     path('', views.mypage, name='mypage'),
-    path('signup', views.signup, name='signup'),
-    path('login', views.login, name='login'),
-    path('logout', auth_views.LogoutView.as_view(), name='logout')
+    path('signup/', views.signup, name='signup'),
+    path('login/', views.login, name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('letters/<int:user_id>/', views.letter_post, name='letter_post'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
