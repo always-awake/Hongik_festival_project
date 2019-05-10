@@ -1,0 +1,35 @@
+<form method="POST" action="signup" enctype="multipart/form-data">
+    {%csrf_token%}
+
+    id:
+    <br>
+    <input name="name" type="text" value="">
+    <br>
+    username:
+    <input type="text", name="username">
+    <br>
+    Password:
+    <br>
+    <input name="password1" type="password" value="">
+    <br>
+    re-Password:
+    <br>
+    <input name="password2" type="password" value="">
+    <br>
+    <input type='radio' name='gender' value='female' />여성
+    <input type='radio' name='gender' value='male' />남성
+    <br>
+    phone:
+    <br>
+    <input type="integer" name="phone">
+    <br>
+    bio:
+    <input type="text" name="bio">
+    <br>
+    profile_img:
+    <input type="file" name="profile_img">
+
+    <input class="btn btn-primary" type="submit" value="Sign Up!">
+
+
+</form>

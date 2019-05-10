@@ -1,0 +1,9 @@
+{% for post in posts %}
+<div class="container home_text">
+    <h2>{{post.title}}</h2>
+    <p>{{post.creator.name}}</p>
+    <p>{{post.how_many}}</p>
+    <p>{{post.created_at}}</p>
+    <br>
+</div>
+{% endfor %}
