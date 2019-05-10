@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
 from django.contrib import auth
 from django.core.files.storage import FileSystemStorage
-from .models import User
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import User, Letter
+from .forms import LetterPost
 
 
 def mypage(request):
@@ -40,3 +41,15 @@ def logout(request):
     return render(request, 'home.html')
 
 
+def letter_post(request, user_id):
+    if request.user.is_authenticated and request.method == 'POST':
+        form = LetterPost(request.POST)
+        if form.is_valid():
+            letter = form.save(commit=False)
+            letter.letter_to = get_object_or_404(User, id=user_id)
+            letter.letter_from = request.user
+            letter.save()
+            return redirect('/posts/')
+    elif request.method == 'GET':
+        form = LetterPost()
+        return render(request, 'letter_post.html', {'form': form})
