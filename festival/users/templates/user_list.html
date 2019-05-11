@@ -1,0 +1,12 @@
+<!--모든 회원 목록을 볼 수 있는 페이지입니다.-->
+{% for user in users %}
+<div>
+    <img src="{{ user.profile_image.url }}" alt="{{user.username}}"width="100px" height="100px" >
+    <p>{{user.username}}</p>
+    <p>{{user.gender}}</p>
+    <p>{{bar.bio}}</p>
+    <br>
+</div>
+{% endfor %}
+
+
