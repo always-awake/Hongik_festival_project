@@ -1,15 +1,22 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as AuthUserAdmin
 from . import models
+
 
 
 @admin.register(models.User)
 class UserAdmin(admin.ModelAdmin):
     list_display = (
         'id',
-        'name',
+        'username',
         'gender',
-        'phone',
+
     )
+    fieldsets = AuthUserAdmin.fieldsets + (("유저 부가 정보", {
+        "fields": (
+            "profile_image", "bio", "gender",
+            )
+        }),)
 
 
 @admin.register(models.UserLike)
@@ -29,3 +36,5 @@ class LetterAdmin(admin.ModelAdmin):
         'letter_from',
         'check',
     )
+
+
