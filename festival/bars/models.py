@@ -10,6 +10,10 @@ class Bar(TimeStampedModel):
     text = models.TextField(max_length=200) # 술집에 대한 간단한 소개
     location_url = models.TextField(max_length=200) # 술집 위치 -> 이후 필요에 따라 변경될 가능성이 높은 필드
 
+    @property
+    def barlike_count(self):
+        return self.likes.count()
+
     def __str__(self):
         return f'{self.name}'
 
