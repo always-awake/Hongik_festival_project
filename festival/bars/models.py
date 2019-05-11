@@ -5,8 +5,11 @@ from posts.models import TimeStampedModel
 
 class Bar(TimeStampedModel):
     """ Bar Model """
-    image = models.ImageField(upload_to=f'bars/')
     name = models.CharField(max_length=80)
+    represent_image = models.ImageField(upload_to=f'bars/')
+    first_image = models.ImageField(upload_to=f'bars/')
+    second_image = models.ImageField(upload_to=f'bars/')
+    third_image = models.ImageField(upload_to=f'bars/')
     text = models.TextField(max_length=200) # 술집에 대한 간단한 소개
     location_url = models.TextField(max_length=200) # 술집 위치 -> 이후 필요에 따라 변경될 가능성이 높은 필드
 
