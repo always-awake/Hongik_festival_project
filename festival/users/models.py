@@ -18,10 +18,9 @@ class User(AbstractUser):
         blank=True, # 유저가 회원가입할 때, 프로필 이미지를 넣지 않아도 회원가입이 되도록 설정해주기 위함
         null=True, # null값을 갖을 수 있음
         )
-    name = models.CharField(max_length=255, null=True) #null 값은 갖을 수 있으나, blank=False(기본값)이기 때문에 유저는 꼭 이름을 적어야 함
     bio = models.TextField(blank=True, null=True) # 짧은 자기소개
-    phone = models.CharField(max_length=140, blank=True, null=True)
     gender = models.CharField(max_length=80, choices=GENDER_CHOICES, null=True) # choices를 설정함으로써, 유저가 한정적인 답을 줄 수 있도록 함
+    profile_open = models.BooleanField(default=True)
 
     # 유저가 다른 유저들로부터 받은 하트 개수
     @property
