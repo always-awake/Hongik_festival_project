@@ -9,5 +9,4 @@ class PostAdmin(admin.ModelAdmin):
         'title',
         'creator',
         'how_many',
-        'activate',
     )

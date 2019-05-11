@@ -3,7 +3,6 @@ from django.contrib.auth.admin import UserAdmin as AuthUserAdmin
 from . import models
 
 
-
 @admin.register(models.User)
 class UserAdmin(admin.ModelAdmin):
     list_display = (
