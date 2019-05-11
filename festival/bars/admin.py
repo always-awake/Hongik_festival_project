@@ -9,3 +9,12 @@ class PostAdmin(admin.ModelAdmin):
         'name',
         'text',
     )
+
+
+@admin.register(models.BarLike)
+class BarLikeAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'bar',
+        'creator',
+    )
