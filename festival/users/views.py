@@ -2,7 +2,16 @@ from django.shortcuts import render, redirect
 from django.contrib import auth
 from django.core.files.storage import FileSystemStorage
 from .models import User
+from users.models import User
 
+def memlist(request):
+    if request.method =='POST':
+        prefer_gen = request.POST['gender']
+        mems = User.objects.filter(gender=prefer_gen)
+        return render(request, 'memlist.html', {'mems':mems})
+    else:
+        mems = User.objects.all()
+        return render(request, 'memlist.html', {'mems':mems})
 
 def mypage(request):
     return render(request, 'mypage.html')

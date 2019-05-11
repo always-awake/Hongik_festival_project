@@ -10,6 +10,7 @@ urlpatterns = [
     path('', views.mypage, name='mypage'),
     path('signup', views.signup, name='signup'),
     path('login', views.login, name='login'),
-    path('logout', auth_views.LogoutView.as_view(), name='logout')
+    path('memlist', views.memlist, name='memlist'),
+    path('logout', auth_views.LogoutView.as_view(), name='logout'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

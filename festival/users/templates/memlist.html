@@ -1,0 +1,19 @@
+{% for mem in mems %}
+
+{{ mem.username }}
+<br>
+{{ mem.name }}
+<br>
+{{ mem.gender }}
+
+
+
+{% endfor %}
+
+
+<form action="memlist" method='POST'>
+        {%csrf_token%}
+    <input type='radio' name='gender' value='female' />여성
+    <input type='radio' name='gender' value='male' />남성
+    <input class="btn btn-primary" type="submit" value="선택">
+</form>
