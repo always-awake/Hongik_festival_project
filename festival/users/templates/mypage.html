@@ -11,7 +11,7 @@
 {{user.letter_count}}
 <br>
 {% if user.is_authenticated %}
-<a href="logout?next=/users">logout</a>
+<a href="{% url 'users:logout'%}">logout</a>
 {% else %}
 <a href="login">login</a>
 <a href="signup">signup</a>

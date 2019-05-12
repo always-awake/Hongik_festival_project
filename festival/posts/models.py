@@ -15,6 +15,10 @@ class TimeStampedModel(models.Model):
 
 class Post(TimeStampedModel):
     """ Post Model """
+    GENDER_CHOICES = (
+        ('male', 'Male'),
+        ('female', 'Female'),
+    )
     title = models.CharField(max_length=140)
     creator = models.ForeignKey(
         settings.AUTH_USER_MODEL, 
@@ -25,6 +29,7 @@ class Post(TimeStampedModel):
     image = models.ImageField(upload_to=f'posts/', blank=True, null=True)
     text = models.TextField(max_length=200)
     how_many = models.IntegerField(default=1) # 몇대몇 미팅을 구하는지 인원수 
+    gender = models.CharField(max_length=80, choices=GENDER_CHOICES, null=True)
 
     def __str__(self):
         return f'{self.title}-{self.creator}'

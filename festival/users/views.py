@@ -5,24 +5,26 @@ from .models import User, Letter
 from .forms import LetterPost
 
 
+# 마이페이지 작성
 def mypage(request):
-    return render(request, 'mypage.html')
+    user = request.user
+    return render(request, 'mypage.html', {'user':user})
 
 def signup(request):
     if request.method == 'POST':
         if request.POST['password1'] == request.POST['password2']:
             user = User.objects.create_user(
                 username=request.POST['username'],
-                # name=request.POST.get('name'), 
+                name=request.POST.get('name'), 
                 password=request.POST['password1'], 
                 profile_image=request.FILES['profile_img'],
                 bio=request.POST['bio'],
-                #phone=request.POST['phone'], 
+                phone=request.POST['phone'], 
                 gender=request.POST['gender'], 
                 )
             if user is not None:
                 auth.login(request, user)
-                return redirect('http://localhost:8000/users')
+                return redirect('/users/')
     return render(request, 'signup.html') 
 
 def login(request):
@@ -32,7 +34,8 @@ def login(request):
         user = auth.authenticate(request, username=username, password=password)
         if user is not None:
             auth.login(request, user)
-            return redirect('http://localhost:8000/users')
+            print(user.id)
+            return redirect('/users/mypage/')
         else:
             return redirect(request, 'login.html')
     else:
@@ -41,8 +44,8 @@ def login(request):
 def logout(request):
     if request.method == 'POST':
         auth.logout(request)
-        redirect('home')
-    return render(request, 'home.html')
+        return redirect('/posts/')
+    return render(request, 'mypage.html')
 
 # 쪽지를 보내는 함수
 def letter_post(request, user_id):
@@ -53,7 +56,7 @@ def letter_post(request, user_id):
             letter.letter_to = get_object_or_404(User, id=user_id)
             letter.letter_from = request.user
             letter.save()
-            return redirect('/posts/')
+            return redirect('letters/from/')
     elif request.method == 'GET':
         form = LetterPost()
         return render(request, 'letter_post.html', {'form': form})
