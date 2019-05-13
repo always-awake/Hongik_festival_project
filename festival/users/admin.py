@@ -9,7 +9,7 @@ class UserAdmin(admin.ModelAdmin):
         'id',
         'username',
         'gender',
-
+        'profile_image',
     )
     fieldsets = AuthUserAdmin.fieldsets + (("유저 부가 정보", {
         "fields": (
