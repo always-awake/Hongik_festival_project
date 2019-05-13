@@ -1,9 +1,0 @@
-<!--유저가 보낸 쪽지 리스트를 볼 수 있는 페이지 html입니다.-->
-{% for letter in letters %}
-<div class="container home_text">
-    <p>To: {{letter.letter_to}}</p>
-    <p>From: {{letter.letter_from}}</p>
-    <p>{{letter.text}}</p>
-    <br>
-</div>
-{% endfor %}

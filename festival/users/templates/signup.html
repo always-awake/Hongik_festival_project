@@ -1,10 +1,17 @@
 <div>
     <form method="POST" action="{% url 'users:signup'%}" enctype="multipart/form-data">
         {%csrf_token%}
-
-        회원이름(닉네임):
+        아이디:
         <br>
         <input type="text", name="username">
+        <br>
+        회원 이름:
+        <br>
+        <input type="text", name="name">
+        <br>
+        핸드폰 번호:
+        <br>
+        <input type="text", name="phone">
         <br>
         Password:
         <br>
@@ -22,6 +29,10 @@
         <br>
         프로필이미지:
         <input type="file" name="profile_img">
+        <br>
+        <br>
+        <input type='radio' name='profile_open' value='True' />공개
+        <input type='radio' name='profile_open' value='False' />비공개
         <br>
         <input class="btn btn-primary" type="submit" value="회원가입">
     </form>
