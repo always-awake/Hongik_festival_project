@@ -122,3 +122,6 @@ STATICFILES_DIRS = [
 # media settings
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, '.media')
+
+# 로그인이 필요한 기능에 로그인하지 않은 유저가 접근 시도할 때, 유저를 해당 login 페이지로 보낸다.
+LOGIN_URL = 'users:indirect_login'
