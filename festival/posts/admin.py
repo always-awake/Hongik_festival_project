@@ -9,4 +9,15 @@ class PostAdmin(admin.ModelAdmin):
         'title',
         'creator',
         'how_many',
+        'created_at',
+    )
+
+
+@admin.register(models.Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'post',
+        'creator',
+        'created_at',
     )
