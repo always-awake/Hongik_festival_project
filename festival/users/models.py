@@ -56,21 +56,21 @@ class Letter(TimeStampedModel):
     """ Letter Model """
     letter_to = models.ForeignKey(
         settings.AUTH_USER_MODEL, 
-        on_delete=models.SET_DEFAULT,
+        on_delete=models.PROTECT,
         null=True, 
-        default='알수없음', 
         related_name='letter_to'
         )
     letter_from = models.ForeignKey(
         settings.AUTH_USER_MODEL, 
-        on_delete=models.SET_DEFAULT, 
+        on_delete=models.PROTECT, 
         null=True, 
-        default='알수없음',
         related_name='letter_from'
         )
     text = models.TextField(null=True)
-    check = models.BooleanField(default=False)
-    delete = models.BooleanField(default=False) 
+    check_to = models.BooleanField(default=False, null=True)
+    check_from = models.BooleanField(default=False, null=True)
+    delete_to = models.BooleanField(default=False, null=True) # 받은쪽이 삭제
+    delete_from = models.BooleanField(default=False, null=True) # 보낸 쪽이 삭제
     # 쪽지함에서 삭제(실제로 디비에서 삭제되는 것이 아닌 목록에 띄우지 않는 것임)
     
     class Meta:
