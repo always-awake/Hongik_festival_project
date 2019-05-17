@@ -16,11 +16,11 @@ class User(AbstractUser):
         blank=True,
         null=True
         )
-    name = models.CharField(max_length=140, blank=False)
-    phone = models.CharField(max_length=225, blank=False) 
+    name = models.CharField(max_length=140, blank=False, null=True)
+    phone = models.CharField(max_length=225, blank=False, null=True) 
     bio = models.TextField(blank=True, null=True)
     gender = models.CharField(max_length=80, choices=GENDER_CHOICES, null=True)
-    profile_open = models.BooleanField(default=True)
+    profile_open = models.BooleanField(default=True, null=True)
 
     @property
     def userlike_count(self):
