@@ -1,36 +1,72 @@
-<a href="{% url 'posts:new'%}">글쓰기</a>
-<div class="container home_text">
-    {% for post in posts %}
-    <h2>{{post.title}}</h2>
-    <p>{{post.creator.name}}</p>
-    <p>{{post.how_many}}</p>
-    <p>{{post.created_at}}</p>
-    <p><a href="{% url 'posts:detail' post.id %}">더 알아보기</a></p>
-    <br>
-    {% endfor %}
+{% extends 'base.html' %}
+{% block title %}
+    <title>미팅 리스트</title>
+{% endblock %}
+{% block contents %}
+<style>
+input:focus {
+  border-bottom: 1px solid #E91E63 !important;
+  box-shadow: 0 1px 0 0 #E91E63 !important;
+}
+label.active {
+  color: #E91E63;
+}
+</style>
+<!--   타이틀-->          
+<div style="padding:1rem;">
+    <form method="GET" action="">
+        {%csrf_token%}
+        <br>
+        인원:
+        <input placeholder="몇명이서 오셨어요?" type="text" name="search" value="{{ search }}" />
+        <br>
+        <div>
+        <a class= "right waves-effect waves-light btn-small title_sub pink" ><input type="submit" style="color:white;" value="검색"></a>
+        </div>
+        <br>
+    </form>
+<div>     
+<div class="row">
+</div>  
+<!--   리스트-->
+{% for post in posts %}
+
+    <ul class="collection">
+        <a href="{% url 'posts:detail' post.id %}">
+            <li class="collection-item avatar" style="padding-left:9rem; padding-top:2rem; color:black;">
+              <img src="{{ post.creator.profile_image.url }}" alt="" class="circle" style="height:6rem; width:6rem;">
+                <span class="title" style="font-size:18px;"><b>{{post.title}}</b></span>
+                <p>{{post.how_many}}명이서 왔어요</p>
+                <p>{{post.summary}}</p>
+                <br>
+                <p style="font-size:11px; text-align:right; color:black;">{{post.created_at}}</p>
+            {% if post.creator.gender == 'female' %}
+            <p class="secondary-content" style="color:#E91E63;">여자</p>
+            {% elif post.creator.gender == 'male' %}
+            <p class="secondary-content" style="color:#1e88e5;">남자</p>
+            {% endif%}
+            </li>
+        </a>
+    </ul>
+{% endfor %}
+<!--페이지네이션입니다  -->
+<ul class="pagination center-align">
+    {% for i in endPage %}
+    <li class="{% if i == posts.number %}active pink{%endif%}"><a href="?page={{ i }}">{{ i }}</a></li>
+    {%endfor%}
+</ul>
+<a class="right waves-effect waves-light btn-small title_sub pink" href="{% url 'posts:new'%}">글쓰기</a>
+    </div>
 </div>
+<br><br><br><br><br>
+{% endblock %}
+<style>
+    .collection a{
+        color: black ;
+    }
+     a:hover { 
+         color: #E91E63; text-decoration: none;
+    }
 
-<!-- 박솔민 : 게시물 리스트 보기 + 페이지네이션 -->
-<form method="GET" action="">
-    {%csrf_token%}
-    <br>
-    인원:
-    <input type="text" name="search" value="{{ search }}" />
-    <br>
-    <input type="submit" value="검색">
-    <br>
-</form>
 
-{%if posts.has_previous%}
-<a href="?page=1">First</a>
-<a href="?page={{ posts.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">previous</a>
-{%endif%}
-
-<span>{{posts.number}}</span>
-<span>of</span>
-<span>{{posts.paginator.num_pages}}</span>
-
-{%if posts.has_next%}
-<a href="?page={{posts.next_page_number}}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">Next</a>
-<a href="?page={{posts.paginator.num_pages}}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">Last</a>
-{%endif%}
+</style>

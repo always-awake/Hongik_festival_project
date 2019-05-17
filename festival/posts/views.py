@@ -12,14 +12,14 @@ def post_list(request):
 
     paginator = Paginator(posts, 3)
     page = request.GET.get('page')
-
+    endPage = paginator.page_range
     try:
         posts = paginator.page(page)
     except PageNotAnInteger:
         posts = paginator.page(1)
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
-    return render(request, 'post_list.html', {'posts':posts, 'search':search})
+    return render(request, 'post_list.html', {'posts':posts, 'search':search, 'endPage':endPage})
 
 @login_required
 def my_post_list(request):
@@ -32,24 +32,6 @@ def post_detail(request, post_id):
     request_user = request.user
     comments = post_detail.comments.all()
     return render(request, 'post_detail.html',{'post':post_detail, 'user':request_user, 'comments':comments})
-
-# def post_new(request):
-#     post = Post()
-#     post.title = "admin12345"
-#     return render(request,'post_new.html',{'post':post})
-
-# def post_create(request):
-#     user = request.user
-#     if user.is_authenticated:
-        # post= Post()
-        # post.title = request.GET['title'] # 제목저장
-        # post.text = request.GET['text'] # 본문저장
-        # post.how_many = request.GET['how_many'] # 몇명 저장
-        # post.creator = user #유저 정보 저장
-        # post.save()
-        # return redirect('/posts/detail/' + str(post.id))
-    # else:
-    #     return render(request, 'login.html')
 
 @login_required
 def post_new(request):
@@ -72,20 +54,6 @@ def post_delete(request, post_id):
     post_to_delete = get_object_or_404(Post, pk=post_id)
     post_to_delete.delete()
     return redirect('/posts/myposts/')
-
-# def post_update(request,post_id):
-#     post = get_object_or_404(Post, pk = post_id)
-#     return render(request,'post_new.html',{'post':post})
-
-# def post_update_func(request,post_id):
-#     post = get_object_or_404(Post, pk = post_id)
-#     post.title = request.GET['title'] # 제목저장
-#     post.text = request.GET['text'] # 본문저장
-#     post.how_many = request.GET['how_many'] # 몇명 저장
-#     post.creator = request.user #유저 정보 저장
-#     post.save()
-#     return redirect('/posts/detail/' + str(post.id))
-# 조원준 : 끝
 
 @login_required
 def post_update(request, post_id):
@@ -126,7 +94,5 @@ def post_comment_delete(request, comment_id):
 def index_return(request):
     return render(request, 'index.html')
 
-def main_return(request):
-    return render(request, 'main.html')
-
-ㄴ
+def develop(request):
+    return render(request, 'developer.html')

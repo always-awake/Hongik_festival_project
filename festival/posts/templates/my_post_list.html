@@ -1,13 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}
+    <title>내가 쓴 글 목록</title>
+{% endblock %}
+{% block contents %}
 <!--내가 쓴 글 -->
-<div>
-    {% for post in posts %}
-    <h2>{{post.title}}</h2>
-    <p>{{post.creator.name}}</p>
-    <p>{{post.how_many}}</p>
-    <p>{{post.created_at}}</p>
-    <p><a href="{% url 'posts:detail' post.id %}">더 알아보기</a></p>
-    <br>
-    <p><a href="{% url 'posts:delete' post.id %}">삭제</a></p>
-    {% endfor %}
-    <p><a href="{% url 'posts:my_post_list'%}">목록보기</a></p>
+<br>
+<div style="margin-left:15px; margin-right:15px;">
+    <p>총 {{user.post_count}} 개 게시물</p>
 </div>
+{% for post in posts %}
+<div style="margin-left:15px; margin-right:15px;">
+    <ul class="collection">
+        <a href="{% url 'posts:detail' post.id %}">
+            <li class="collection-item avatar" style="padding-left:9rem; padding-top:2rem; color:black;">
+              <img src="{{ post.creator.profile_image.url }}" alt="" class="circle" style="height:6rem; width:6rem;">
+                <span class="title" style="font-size:18px;"><b>{{post.title}}</b></span>
+                <p>{{post.how_many}}명이서 왔어요</p>
+                <p>{{post.summary}}...</p>
+                <br>
+                <p style="font-size:11px; text-align:right; color:black;">{{post.created_at}}</p>
+            {% if post.creator.gender == 'female' %}
+            <p class="secondary-content" style="color:#E91E63;">여자</p>
+            {% elif post.creator.gender == 'male' %}
+            <p class="secondary-content" style="color:#1e88e5;">남자</p>
+            {% endif%}
+            </li>
+        </a>
+    </ul>
+</div>
+{% endfor %}
+
+<style>
+    .collection a{
+        color: black ;
+    }
+    a:hover { 
+        color: #E91E63; text-decoration: none;
+    }
+    .male_or_female{
+        display : inline-block ;
+    }    
+
+</style>
+{% endblock %}

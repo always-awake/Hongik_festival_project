@@ -1,7 +1,79 @@
-<h2>
-    {% if user.is_authenticated %}
-    {{user.username}}님 안녕하세요!
-    {% else %}
-    로그인해주세요!
-    {% endif %}
-</h2>
+<!DOCTYPE html>
+{% load static %}
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    {% block title %}
+    {% endblock %}
+    <link rel="stylesheet" href="/static/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--    메터리얼라이즈-->
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <!--    <script type="text/javascript" src="./script.js"></script>-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <script>
+      $(document).ready(function(){
+        $('.sidenav').sidenav();
+      });
+    </script>
+</head>
+    <body id="materialize-overrides">
+    <!--   헤더-->
+      <nav>
+        <div class="nav-wrapper pink">
+          <a href="{% url 'index' %}" class="brand-logo"><img src="/static/img/logo.png" alt=""></a>
+            <a href="#" data-target="mobile-demo" class="sidenav-trigger">
+              <i class="material-icons">menu</i>
+            </a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="sass.html">미팅</a></li>
+                <li><a href="badges.html">1대1쪽지보내기</a></li>
+                <li><a href="collapsible.html">홍대술집</a></li>
+                <li><a href="/posts/developer">개발자소개</a></li>
+                <li><a href="mobile.html">신고하기</a></li>
+              </ul>
+        </div>
+      </nav>
+      <ul class="sidenav" id="mobile-demo">
+        <li><a href="{% url 'posts:post_list' %}">미팅게시판</a></li>
+        <li><a href="{% url 'users:user_list' %}">회원목록</a></li>
+        <li><a href="{% url 'bars:bar_list' %}">홍대술집</a></li>
+        <li><a href="/posts/developer">개발자소개</a></li>
+        <li><a href="mobile.html">신고하기</a></li>
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'users:mypage' %}">마이페이지</a></li>
+        <li><a href="{% url 'users:logout' %}">로그아웃</a></li>
+        {% else %}
+        <li><a href="{% url 'users:direct_login' %}">로그인</a></li>
+        <li><a href="{% url 'users:signup' %}">회원가입</a></li>
+        {% endif %}
+      </ul>
+
+    <title>홍대 축제 2019</title>
+
+<div class="tw_index">
+      <a class="tw_index" style="line-height:0" href="/"><img style="width:100%;" src="{% static "img/index_1.png"%}"></div></a>
+      <a class="tw_index" style="line-height:0" href="{% url 'posts:post_list' %}"><img style="width:100%;" src="{% static "img/index_2.png"%}"></a>
+      <a class="tw_index" style="line-height:0" href="{% url 'users:user_list' %}"><img style="width:100%;" src="{% static "img/index_3.png"%}"></a>
+      <a class="tw_index" style="line-height:0" href="{% url 'bars:bar_list' %}"><img style="width:100%;" src="{% static "img/index_4.png"%}"></a>
+ </div>
+<footer>
+    <div>
+        <img class="page-footer " style="width:100%; padding-top: 0 !important;" src="{% static "img/footer_wowfest.png" %}">
+    </div>
+</footer>
+</body>
+</html>
+
+<style>
+    .tw_index{
+        margin: 0 !important;
+        
+    }
+</style>

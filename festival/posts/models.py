@@ -27,6 +27,10 @@ class Post(TimeStampedModel):
     @property
     def comment_count(self):
         return self.comments.count()
+    
+    @property
+    def summary(self):
+        return self.text[:50]
 
     def __str__(self):
         return f'{self.title}-{self.creator}'
@@ -45,9 +49,8 @@ class Comment(TimeStampedModel):
     )
     creator = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.SET_DEFAULT,
+        on_delete=models.PROTECT,
         null=True,
-        default='알수없음',
     )
     message = models.TextField()
     

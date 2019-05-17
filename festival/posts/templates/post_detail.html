@@ -1,38 +1,75 @@
-<div>
-    <div>
-        <h2>제목 : {{post.title}}</h2>
-        <p>이름 :{{post.creator.username}}</p>
-        <p>몇명 :{{post.how_many}}</p>
-        <p>날짜 :{{post.created_at}}</p>
-        <p>내용 : {{post.text}} </p>
-        {% if user == post.creator %}
-        <p><a href="{% url 'posts:delete' post.id %}">삭제</a></p>
-        <p><a href="{% url 'posts:update' post.id %}">수정</a></p>
-        {% endif%}
-        <br>
-    </div>
-    <div>
-        <h3>
-            덧글창
-        </h3>
+{% extends 'base.html' %}
+{% block title %}
+    <title>{{post.creator}}님의 게시글</title>
+{% endblock %}
+{% block contents %}
+<style>
+input:focus {
+  border-bottom: 1px solid #E91E63 !important;
+  box-shadow: 0 1px 0 0 #E91E63 !important;
+}
+label.active {
+  color: #E91E63;
+}
+</style>
+<!--   메시지-->
+    
+
+<div style="padding:1rem;">
+  <br>
+  <ul class="collection">
+    <li class="collection-item avatar">
+      <a href="{% url 'users:userpage' post.creator.id %}">
+          <img src="{{ post.creator.profile_image.url }}" alt="" class="circle">
+      </a>
+      <span class="title" style="font-size:20px;"><b>{{post.title}}</b></span>
+      <h6>{{post.creator.username}}</h6><br>
+      <p>{{post.text}}</p> <br>
+      {% if post.creator.gender == 'female' %}
+      <p class="secondary-content" style="color:#E91E63;">여자</p>
+      {% elif post.creator.gender == 'male' %}
+      <p class="secondary-content" style="color:#E91E63;">남자</p>
+      {% endif %}
+    </li>
+  </ul>
+{% if post.creator == user %}
+    <a class="right waves-effect waves-light btn-small title_sub pink" href="{% url 'posts:delete' post.id%}">삭제</a>
+{% endif %}
+<div class="row">
+</div>  
+    <!--   글쓰기-->
+    <div class='comment'>
+        <div class="s-comment-title">댓글 쓰기:</div>
         <form method="POST" action="{% url 'posts:post_comment_create' post.id %}">
             {% csrf_token %}
-            <h4>덧글 쓰기</h4>
-            <input type="text", name="message", placeholder="덧글을 입력해주세요.">
-            <input type = "submit" value="덧글달기"> 
-        </form>
+            <div class="confirm" >
+                <input type="text", name="message", placeholder="댓글을 입력해주세요.">
+                <div class="col s12">
+                 <button class="btn waves-effect waves-light pink submit_btn_2 right" type="submit" value="댓글달기">
+                     <b>등록</b>
+                 </button>
+                </div> 
+            </div>
+        </form> 
+    <br>
+    <div class="row">
     </div>
-    <div>
-        {% for comment in comments %}
-        <p>작성자: {{comment.creator}}</p>
-        <p>덧글 내용: {{comment.message}}</p>
-        <p>작성일: {{comment.created_at}}</p>
-        {% if user == comment.creator %}
-        <p><a href="{% url 'posts:post_comment_delete' comment.id %}">삭제</a></p>
-        {% endif%}
-        {% endfor %}
-    </div>
-    <p><a href="{% url 'posts:post_list'%}">목록보기</a></p>
+    {% for comment in comments %}
+    <div class="reply_done">
+     <ul class="collection" style="border-color:white;">
+        <li class="collection-item avatar">
+          <a href="{% url 'users:userpage' comment.creator.id %}">
+              <img src="{{ comment.creator.profile_image.url }}" alt="" class="circle">
+          </a>
+          <span class="title">{{comment.creator.username}}</span>
+          <p>{{comment.message}}</p>
+          <p style="font-size:11px; text-align:right">{{comment.created_at}}</p>
+        </li>
+      </ul>
+    </div> 
+    {% endfor %}
 </div>
-
-
+    
+    </div>
+<br><br><br><br><br><br><br><br>
+{% endblock %} 

@@ -1,36 +1,99 @@
-{% if post %}
-<div>
-<h1>글 수정하기</h1>
-    <form method="POST" action="{% url 'posts:update' post.id %}">
+{% extends 'base.html' %}
+{% block title %}
+    <title>글쓰기</title>
+{% endblock %}
+{% block contents %}
+<style>
+input:focus {
+  border-bottom: 1px solid #E91E63 !important;
+  box-shadow: 0 1px 0 0 #E91E63 !important;
+}
+    label.active {
+        color: #E91E63;
+    }
+</style>
+<!--   글쓰기-->
+    {% if post %}
+     <div class="row">
+    <form class="col s12" method="POST" action="{% url 'posts:new' %}">
         {% csrf_token %}
-        <h4>제목 : </h4>
-        <input type ="text" value="{{post.title}}" name = "title" required="true">
-        <br>
-        <h4>몇명 : (1 - 5까지)</h4>
-        <input type="number" value="{{post.how_many}}" name="how_many" min="1" max="5" required="true">
-        <h4>본문 : </h4>
-        <textarea cols=40 rows=10 name="text" required="true">{{post.text}}</textarea>
-        <br>
-        <input type = "submit" value="제출하기"> 
-    </form>
-</div>
-{% else %}
-<div>
-<h1>글 쓰기</h1>
-    <form method="POST" action="{% url 'posts:new' %}">
+      <div class="row">
+        <div class="input-field col s12">
+        <input id="title" class="materialize-textarea" type ="text" name = "title" required="true">
+          <label style="color: #E91E63;" for="title">제목을 입력해주세요</label>
+        </div>
+      </div>
+    
+      
+    <div class="row">
+        <div class="input-field col s12">
+        <textarea id="textarea1" type="text" class="materialize-textarea" name="text" cols=40 rows=10  required="true">
+            {{post.text}}
+        </textarea>
+          <label style="color: #E91E63;"  for="textarea1">내용을 입력해주세요</label>
+        </div>
+     </div>
+    <div class="row">
+        <div class="input-field col s12" style="width:13rem;">
+        <input id="number" type="number" value="{{post.how_many}}" name="how_many" min="1" max="5" required="true"> </input>
+
+          <label style="color: #E91E63;"  for="number">몇명이서 왔어요?</label>
+        </div>
+      </div>
+         <button class="btn waves-effect waves-light pink submit_btn_2">
+            <a href="{% url 'posts:post_list'%}">글쓰기 취소</a>
+        </button>    
+        <button class="btn waves-effect waves-light pink submit_btn_2 right" type="submit" name="action">
+            완료
+        </button>
+    
+  </ul>
+  </form>
+    {% else %}
+    <div class="row">
+    <form class="col s12" method="POST" action="{% url 'posts:new' %}">
         {% csrf_token %}
-        <h4>제목 : </h4>
-        <input type ="text" name = "title" required="true">
-        <br>
-        <h4>몇명 : (1 - 5까지)</h4>
-        <input type="number" name="how_many" min="1" max="5" required="true">
-        <h4>본문 : </h4>
-        <textarea cols=40 rows=10 name="text" required="true"> </textarea>
-        <br>
-        <input type = "submit" value="제출하기"> 
-    </form>
+      <div class="row">
+        <div class="input-field col s12">
+        <input id="title" class="materialize-textarea" type ="text" name = "title" required="true">
+
+          <label for="title">제목을 입력해주세요</label>
+        </div>
+      </div>
+        </div>
+
+    
+      
+    <div class="row">
+        <div class="input-field col s12">
+        <input id="textarea1" type="text" class="materialize-textarea" name="text" required="true"> </input>
+
+          <label for="textarea1">내용을 입력해주세요</label>
+        </div>
+      </div>
+        
+    <div class="row">
+        <div class="input-field col s12" style="width:13rem; ">
+        <input id="number" type="number" value="{{post.how_many}}" name="how_many" min="1" max="5" required="true" > </input>
+
+          <label for="number">몇명이서 왔어요?</label>
+        </div>
+      </div>
+    <div class="col s12">
+    <button class="btn waves-effect waves-light pink submit_btn_2">
+        <a href="{% url 'posts:post_list'%}">글쓰기 취소</a>
+    </button>    
+    <button class="btn waves-effect waves-light pink submit_btn_2 right" type="submit" name="action">
+        완료
+    </button>
 </div>
+    
+  </ul>
+  </form>
 {% endif %}
-<div>
-    <p><a href="{% url 'posts:post_list'%}">글쓰기 취소</a></p>
-</div>
+<style type="text/css">
+ a:visited { color: white; text-decoration: none;}
+ a:hover { color: #E91E63; text-decoration: none;}
+</style>
+
+{% endblock %}
