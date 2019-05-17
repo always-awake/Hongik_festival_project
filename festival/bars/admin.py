@@ -3,11 +3,13 @@ from . import models
 
 
 @admin.register(models.Bar)
-class PostAdmin(admin.ModelAdmin):
+class BarAdmin(admin.ModelAdmin):
     list_display = (
         'id',
         'name',
-        'text',
+        'keyword',
+        'address',
+        'created_at',
     )
 
 

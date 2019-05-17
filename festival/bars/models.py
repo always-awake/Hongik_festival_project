@@ -27,7 +27,6 @@ class Bar(TimeStampedModel):
     def __str__(self):
         return f'{self.name}'
     
-    
 
 class BarLike(TimeStampedModel):
     """ BarLike Model """

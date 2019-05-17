@@ -1,10 +1,56 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}
+    <title>술집 목록</title>
+{% endblock %}
+{% block contents %}
+<!--   타이틀-->          
+<p style="margin:1rem;" class="title_sub waves-effect waves-light btn-small pink"><b>홍대술집</b></p>
+<div style="padding:1rem">
+    
+<!--   리스트-->
 {% for bar in bars %}
-<div class="container home_text">
-    <img src="{{bar.represent_image.url}}" alt="{{bar.title}}">
-    <p>{{bar.name}}</p>
-    <p>{{bar.text}}</p>
-    <p>{{bar.barlike_count}}</p>
-    <br>
-</div>
+<style type="text/css">
+</style>
+<ul class="collection tw_bar_detail" >
+    <a href="{% url 'bars:bar_detail' bar.id %}">
+    <li class="collection-item avatar ">
+    <img src= "{{bar.represent_image.url}}" alt="{{bar.title}}" class="circle" />
+      <span class="title"><b>{{bar.name}}</b></span>
+      <br>
+      <p>{{bar.summary}}</p>
+      <p>{{bar.address}}</p>
+      <p class="secondary-content" style="color:#E91E63;">{{bar.keyword}}</p>
+      <a><p style="text-align:right; font-size:16.5px; color:#E91E63;">
+          {% if preexisiting_like %}
+          <img src="/static/img/yes_like.png" width="13px" height="13px" /> {{bar.barlike_count}}
+          {% else %}
+          <img src="/static/img/no_like.png" width="13px" height="13px" /> {{bar.barlike_count}}
+          {% endif %}
+      </p></a>
+    </a>
+    </li>
+</ul>
 {% endfor %}
+<!--페이지네이션입니다  -->
+<ul class="pagination center-align">
+            {% for i in endPage %}
+            <li class="{% if i == bars.number %}active pink{%endif%}"><a href="?page={{ i }}">{{ i }}</a></li>
+            {%endfor%}
+</ul>
 
+<br><br><br><br><br><br>
+</div>
+
+<style>
+    .collection a{
+        color: black ;
+    }
+     a:hover { 
+         color: #E91E63; text-decoration: none;
+    }
+
+
+</style>
+
+{% endblock %}

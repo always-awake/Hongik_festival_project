@@ -1,12 +1,56 @@
-
-<div class="container home_text">
-    <img src="{{bar.first_image.url}}" alt="{{bar.title}}">
-    <img src="{{bar.second_image.url}}" alt="{{bar.title}}">
-    <img src="{{bar.third_image.url}}" alt="{{bar.title}}">
-    <p>{{bar.name}}</p>
-    <p>{{bar.text}}</p>
-    <p>좋아요 : {{bar.barlike_count}}</p>
-    <p><a href="{{bar.location_url}}">네이버 지도</a></p>   
-    <br>
+{% extends 'base.html' %}
+{% block title %}
+    <title>{{bar.name}}</title>
+{% endblock %}
+{% block contents %}
+<br>
+<!--카드-->
+<div class="row">
+    <div class="col s12 m7">
+        <div class="card">     
+            <div class="card-image">
+              <a href="{{bar.represent_image.url}}">
+              <img src="{{bar.represent_image.url}}">
+              </a>
+            </div>
+            <div class="card-content">
+             <h5><b>{{bar.name}}</b></h5>
+             <h6>{{bar.summary}}</h6>
+              <p>{{bar.text}}</p><br>
+                <h6><b>추천메뉴</b></h6>
+              <p><u>{{bar.first_menu}}</u></p>
+              <p><u>{{bar.second_menu}}</u></p>
+              <p><u>{{bar.third_menu}}</u></p>
+              <p><u>{{bar.fourth_menu}}</u></p>
+              <a href="{% url 'bars:bar_like' bar.id %}"><p style="text-align:right; font-size:16.5px; color:#E91E63;">
+              {% if preexisiting_like %}
+              <img src="/static/img/yes_like.png" width="13px" height="13px" />
+              {% elif preexisiting_like is None %}
+              <img src="/static/img/no_like.png" width="13px" height="13px" />
+              {% endif %}
+                  {{bar.barlike_count}}
+              </p></a>
+            </div>
+            <div class="bar_detail_parent">
+                <a href="{{bar.first_image.url}}">
+                <img style="width: 26vw; height: 26vw; z-index: 999; margin: 0 2vw;" src="{{bar.first_image.url}}" class="bar_detail_img" alt="">
+                </a>
+                <a href="{{bar.second_image.url}}">
+                <img style="width: 26vw; height: 26vw; z-index: 999; margin: 0 2vw;" src="{{bar.second_image.url}}" class="bar_detail_img" alt="">
+                </a>
+                <a href="{{bar.third_image.url}}">
+                <img style="width: 26vw; height: 26vw; z-index: 999; margin: 0 2vw;" src="{{bar.third_image.url}}" class="bar_detail_img" alt="">
+                </a>
+            </div>
+            <div class="card-action">
+                <a style="color:#E91E63; margin-right: 0px;" href="{{bar.location_url}}" class="link_sub">네이버 지도
+                </a>
+            </div>
+            <!--버튼-->
+        </div>
+        <a class="title_sub waves-effect waves-light btn-small pink bar_btn right" href="{% url 'bars:bar_list' %}"><b>술집목록</b></a>
+        
+    </div>
 </div>
-
+<br><br><br><br><br>
+{% endblock %}
