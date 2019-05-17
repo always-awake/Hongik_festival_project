@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% block title %}
+    <title>내정보 수정하기</title>
+{% endblock %}
+{% block contents %}
+
+<!--   타이틀-->          
+    <a class="title_sub waves-effect waves-light btn-small pink"><b>수정하기</b></a>
+    
+<!--   개인정보-->
+<div class="row">
+    <form class="col s12" method='POST' action="{% url 'users:mypage_update_func' user.id%}" enctype="multipart/form-data">
+    {%csrf_token%}
+   <!--아이디는 수정 x
+      <div class="row">
+        <div class="input-field col s12">
+        <input type="text", name="username">
+          <label for="password">아이디</label>
+        </div>
+      </div>
+        -->
+      <div class="row">
+        <div class="input-field col s12">
+          <input type="text", name="name" value="{{user.name}}" required="true">
+          <label for="first_name">이름</label>
+        </div>
+      </div>        
+             
+      <div class="row">
+        <div class="input-field col s12">
+        <input name="password1" type="password" value="" required="true">
+          <label for="password">비밀번호</label>
+        </div>
+      </div>
+    
+     <div class="row">
+        <div class="input-field col s12">
+        <input name="password2" type="password" value="" required="true">
+          <label for="password">비밀번호 확인</label>
+        </div>
+      </div>
+        
+      <div class="row">
+        <div class="input-field col s12">
+          <input name="bio" type="text" class="validate" value="{{user.bio}}" required="true">
+          <label for="bio">자기소개</label>
+        </div>
+      </div>
+        
+    <div class="row">
+        <div class="input-field col s12">
+            
+          <label for="profile_img">프로필 이미지<input type="file" name="profile_img" required="true"></label>
+        </div>
+      </div>
+        
+        <!-- 성별 수정x
+    <div class="row">
+        <div class="input-field col s12">
+            <p>
+                <label>
+                    <input name="gender" type="radio" value='female' />
+                    <span>여성</span>
+                  </label>
+                
+            </p>
+              <p>
+                  <label>
+                    <input name="gender" type="radio" value='male' />
+                    <span>남성</span>
+                  </label>
+            </p>
+            
+        </div>
+      </div>
+        -->
+    <div class="row">
+        <div class="input-field col s12">
+            프로필을 공개하시겠습니까?<br>
+            <p>
+                <label>
+                    <input name="profile_open" type="radio" value='True' required="true"/>
+                    <span>공개</span>
+                  </label>
+                
+            </p>
+              <p>
+                  <label>
+                    <input name="profile_open" type="radio" value='False' required="true"/>
+                    <span>비공개</span>
+                  </label>
+            </p>
+            
+        </div>
+      </div>
+    
+    <!-- 개인정보 수정x
+      <div class="row">
+        <div class="col s12">
+          개인정보제공에 동의합니다
+          <div class="input-field inline">
+            <input id="name" type="text" class="validate">
+            <label for="name">서명</label>
+            <span class="helper-text" data-error="wrong" data-success="right">이름을 써주세요</span>
+          </div>
+        </div>
+      </div>
+    -->
+        <input class="title_sub waves-effect waves-light btn-large pink signup" type="submit" value="수정하기">
+    </form>
+  </div>
+
+
+    <!-- <a class="title_sub waves-effect waves-light btn-large pink signup"><b>가입하기</b></a>  -->
+{% endblock %}

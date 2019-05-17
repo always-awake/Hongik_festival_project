@@ -1,11 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}
+    <title>쪽지쓰기</title>
+{% endblock %}
+{% block contents %}
+<a style="margin:1rem;" class="title_sub waves-effect waves-light btn-small pink">
+    <b>쪽지쓰기</b>
+</a>
+
+<div style="padding:1rem;">
+    
+
+<!--   타이틀-->      
+
+<!--   메시지 프로필 -->
+<ul class="collection">
+    <li class="collection-item avatar">
+        <img src="{{ letter_to.profile_image.url }}" alt="{{ letter_to.name }}님의 프로필 사진" class="circle">
+        <span class="title">To. <b>{{letter_to}}</b></span>
+    </li>
+</ul>
 <!--쪽지를 작성하는 페이지입니다.-->
-<div>
-    <form method="POST" action="{% url 'users:letter_post' letter_to.id%}">
+<div class="row">
+    <form class="col s12" method="POST" action="{% url 'users:letter_post' letter_to.id%}">
         {% csrf_token %}
-        <table>
-            {{form.as_table}}
-        </table>
+      <div class="confirm" >
+        {{form}}
+      </div>
         <br>
-        <input class="btn btn-primary" type="submit" value="Submit!">
+        <button class="btn waves-effect waves-light pink submit_btn_2" type="submit">
+            보내기
+        </button>
+        <a class="btn waves-effect waves-light pink submit_btn_2 right" href="{% url 'users:userpage' letter_to.id %}">취소</a>
     </form>
+
 </div>
+    <br><br><br><br><br><br>
+
+</div>
+<style>
+    .confirm{
+        width:100%;
+        height: 10rem;
+    }
+</style>
+
+{%endblock%}
+
+
+
+
+
+

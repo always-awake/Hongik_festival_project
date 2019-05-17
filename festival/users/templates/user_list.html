@@ -1,12 +1,61 @@
-<!--모든 회원 목록을 볼 수 있는 페이지입니다.-->
-{% for user in users %}
-<div>
-    <img src="{{ user.profile_image.url }}" alt="{{user.username}}"width="100px" height="100px" >
-    <p>{{user.username}}</p>
-    <p>{{user.gender}}</p>
-    <p>{{bar.bio}}</p>
+{% extends 'base.html' %}
+{% block title %}
+    <title>회원 목록</title>
+{% endblock %}
+{% block contents %}
+<div style="padding:1rem;">
+<div class="male_or_female">
+<form method="GET" action="">
+    <a  class="right waves-effect waves-light btn-small title_sub pink" ><input type="submit" name="gender" value="여자" style="color:white;"/></a>
+    <a  class="right waves-effect waves-light btn-small title_sub pink" ><input type="submit" name="gender" value="남자" style="color:white;"/></a>
+    <a  class="right waves-effect waves-light btn-small title_sub pink" ><input type="submit" name="gender" value="전체" style="color:white;"/></a>
     <br>
+</form>
 </div>
+{% for user in users_list %}
+<ul class="collection">
+    <a href="{% url 'users:userpage' user.id %}">
+        <li class="collection-item avatar" style="padding-left:9rem; padding-top:2rem; padding-bottom: 2.3rem;">
+         <img class="circle" src="{{ user.profile_image.url }}" alt="{{user.username}}" style="height:6rem; width:6rem;">
+          <span class="title" style="color:black; font-weight:bold;">{{user.username}}</span>
+          <br>
+          <p style="color:black;">{{user.bio}}</p>
+            {% if user.gender == 'female' %}
+            <p class="secondary-content" style="color:#E91E63;">여자</p>
+            {% elif user.gender == 'male' %}
+            <p class="secondary-content" style="color:#1e88e5;">남자</p>
+            {% endif%}
+          <a><p style="text-align:right; font-size:16.5px; color:#E91E63;">
+          <img src="/static/img/yes_like.png" width="13px" height="13px" /> {{user.userlike_count}}
+          </p></a>
+        </li>
+    </a>
+</ul>
 {% endfor %}
 
 
+
+
+     
+<!--페이지네이션-->
+<ul class="pagination center-align">
+        {% for i in endPage %}
+        <li class="{% if i == users_list.number %}active pink{%endif%}"><a href="?page={{ i }}">{{ i }}</a></li>
+        {%endfor%}
+</ul>
+    
+    <br><br><br><br><br><br>
+</div>
+<style>
+    .collection a{
+        color: black ;
+    }
+    a:hover { 
+        color: #E91E63; text-decoration: none;
+    }
+    .male_or_female{
+        display : inline-block ;
+    }    
+
+</style>
+{% endblock %}

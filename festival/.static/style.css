@@ -1,0 +1,196 @@
+*{
+    padding: 0;
+    border: 0;
+    margin: 0;
+}
+
+.brand-logo img{
+    width: 30vw;
+}
+
+
+/*모바일부터 했습니다!-현준*/
+
+@media(max-width: 600px){
+    
+    
+    .brand-logo img{width: 60vw;}
+    .collection{}
+    .collection-item{margin: 5% 5%;}
+    
+    #materialize-overrides .title_sub{
+    border-radius: 80px;
+    padding: 0 5vw;
+    margin: 3vw 0 3vw 2vw;
+    }    
+
+    #materialize-overrides .title{
+    margin-top: 5vw;
+    }    
+    
+    #materialize-overrides .pagination{
+    margin-top: 15vw;        
+    }
+    
+    #materialize-overrides .material-icons{
+        margin-top: 1vw;
+        font-size: 26px;
+    }
+    
+    #materialize-overrides .cancel{
+        margin-left: 49vw;
+    }
+    
+    
+/*    mypage*/
+    #materialize-overrides .heart{
+        margin-left: 10vw;
+    }
+    #materialize-overrides .profile_sub{
+        width: 35vw;
+        height: 35vw;
+        position: absolute;
+        z-index: 999;
+        left: 32vw;
+        top: 36vw;
+    }
+    
+    
+/*    message_detail*/
+    #materialize-overrides .problem{
+        margin-left: 53vw;
+    }
+    #materialize-overrides .delete{
+        margin-left: 46vw;
+    }
+    
+    
+/*    index 인덱스*/
+    #materialize-overrides .index{
+        height: 30vh;
+        margin-bottom: 0;
+        padding: 0;
+        background-position: center center;
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+    #materialize-overrides .bgi{background-image:url(./img/index_1.png);}
+    #materialize-overrides .bgi2{background-image:url(./img/index_2.png);}
+    #materialize-overrides .bgi3{background-image:url(./img/index_3.png);}
+    #materialize-overrides .bgi4{background-image:url(./img/index_4.png);}
+    .bgi5{
+        background-image:url(./img/footer_2.png);
+        margin-top: -2vw;
+        padding: 2vw;
+    }
+    
+/*
+    #materialize-overrides .footer_footer{
+        height: 10vh;
+        margin-top: 0;
+        margin-bottom: 0;
+        color: red;
+        background-image: url(./img/footer.png)
+    }
+    
+*/
+    
+/*login로그인    */
+    #materialize-overrides .login{
+        background-image:url(./img/login_2.png);
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 100vh;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    
+    
+/*signup 회원가입    */
+    #materialize-overrides .signup{
+        padding: 0 20vw;
+        margin: 0 20vw;
+    }
+    
+    
+/*done 완료되었습니다    */
+    #materialize-overrides .done{
+        background-image:url(./img/done.png);
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 100vh;
+        margin-top: 0;
+        margin-bottom: 0;
+    }    
+    
+    
+/*meeting 미팅    */    
+    #materialize-overrides .people{
+        margin-right: 2vw;
+    }
+    
+    
+/*meeting_post 미팅게시글    */
+    #materialize-overrides .problem_2{
+        margin-left: 47vw;
+    }
+    #materialize-overrides .submit_btn{
+        margin-top: 5vw;
+    }
+    
+    
+/*meeting_post_reply 미팅게시글쓰기    */
+    #materialize-overrides .submit_btn_2{
+
+        border-radius: 40vw;
+
+    }
+    
+/*list_detail 회원리스트개별    */
+    #materialize-overrides .heart_sub{
+        padding: 0 5vw;
+        margin-left: 34vw;
+    }
+    #materialize-overrides .profile{
+        width: 35vw;
+        height: 35vw;
+        position: absolute;
+        z-index: 999;
+        left: 32vw;
+        top: 26vw;
+    }
+    
+/*bar_detail 바 디테일    */
+    #materialize-overrides .link_sub{
+    }
+    #materialize-overrides .bar_name{
+        margin-left: 22vw;
+        font-size: 3rem;
+    }
+    #materialize-overrides .bar_btn{
+        margin-right: 3vw;
+    }
+    #materialize-overrides .bar_detail_img{
+        width: 26vw;
+        height: 26vw;
+        z-index: 999;
+        margin: 0 2vw;
+    }    
+    #materialize-overrides .bar_detail_parent{
+        display: block;
+        margin-left: 1vw;
+    }
+    
+/*declaration 신고하기    */
+    #materialize-overrides .margin_top{
+        margin-bottom: 6vh;
+    }
+    .card-action{
+        text-align:center !important;
+    }
+
+
+}
+
+
+

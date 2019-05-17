@@ -1,15 +1,51 @@
-<!--쪽지 상세 페이지입니다.-->
-<div>
-    <p>To: {{letter.letter_to}}</p>
-    <p>From: {{letter.letter_from}}</p>
-    <p>내용: {{letter.text}}</p>
-    <p>확인여부: {{letter.check}}</p>
-    <p>{{letter.created_at}}</p>
-    <br>
-</div>
+{% extends 'base.html' %}
+{% block title %}
+    <title>쪽지개별</title>
+{% endblock %}
 
-{% if user == letter.letter_to %}
-<a href="{% url 'users:letter_post' user_id=letter.letter_from.id %}">답장하기</a>
+{% block contents %}
+<!--   타이틀-->    
+
+<a style="margin:1rem;"  class="title_sub waves-effect waves-light btn-small pink" href="{% url 'users:letter_list' type=type %}">
+    <b>쪽지함</b>
+</a>
+
+<ul class="collection">
+    <li class="collection-item avatar">
+        <img src="{{ letter.letter_from.profile_image.url }}" alt="" class="circle">
+        <span class="title">from. <b>{{letter.letter_from}}</b></span>
+        <br>
+        <br>
+        <p>{{letter.text}}</p>
+        <p style="color:#969696; text-align:right;">{{letter.created_at}}</p>
+        {% if letter.check == True %}
+        <p class="secondary-content" style="margin:1rem; color:#E91E63;">확인함</p>
+        {% elif letter.check == False %}
+        <p class="secondary-content" style="margin:1rem; color:#E91E63;">확인안함</p>
+        {% endif %}
+    </li>
+</ul>
+
+{% if user == letter.letter_to %}  
+<a style="margin:1rem;" class="left title_sub waves-effect waves-light btn-small pink" href="{% url 'users:letter_post' user_id=letter.letter_from.id %}" >
+  <b>답장하기</b>
+</a>
 {% endif %}
+{% if user == letter.letter_to or user == letter.letter_from %}  
 <!--삭제하기 전에 정말 삭제하시겠습니까? 확인메시지 뜨면 좋을것 같아요-->
-<a href="{% url 'users:letter_delete' letter.id %}">삭제하기</a>
+<a style="margin:1rem;" class="right title_sub waves-effect waves-light btn-small pink confirm-delete" href="{% url 'users:letter_delete' letter.id %} ">
+  <b>삭제하기</b>
+</a>  
+{% endif %}
+{%endblock%}
+
+<a class="title_sub waves-effect waves-light btn-small pink problem">
+    <b>신고하기</b>
+</a>
+
+<script>
+$(document).on('click', '.confirm-delete', function(){
+    return confirm('Are you sure you want to delete this?');
+})
+
+</script>

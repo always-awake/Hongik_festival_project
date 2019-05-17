@@ -2,9 +2,8 @@ from django.conf import settings
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.core.files.storage import FileSystemStorage
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, get_object_or_404, redirect
-
 from .models import User, Letter, UserLike
 from .forms import LetterPost
 
@@ -14,15 +13,36 @@ from .forms import LetterPost
 def mypage(request):
     user = request.user
     # 받은 쪽지 개수
-    letter_to = Letter.objects.filter(letter_to=request.user, delete=False).count()
+    letter_to = Letter.objects.filter(letter_to=request.user, delete_to=False).count()
     # 보낸 쪽지 개수
-    letter_from = Letter.objects.filter(letter_from=request.user, delete=False).count()
+    letter_from = Letter.objects.filter(letter_from=request.user, delete_from=False).count()
     return render(request, 'mypage.html', {
         'user':user, 
         'letter_to':letter_to,
-        'letter_from':letter_from
+        'letter_from':letter_from,
     })
 
+def mypage_update(request,user_id):
+    user = get_object_or_404(User, pk = user_id)
+    return render(request, 'mypage_update.html', {'user':user})
+
+def mypage_update_func(request,user_id):
+    user = get_object_or_404(User, pk = user_id)
+    if(request.POST['password1'] == request.POST['password2']):
+        user.name = request.POST['name']
+        new_password = request.POST['password1']
+        user.set_password(new_password)
+        user.bio = request.POST['bio']
+        user.profile_open = request.POST['profile_open']
+        user.profile_image = request.FILES.get('profile_img', None)
+        user.save()
+        if user is not None:
+            auth.login(request, user)
+        return redirect('/users/mypage/')
+    else :
+        return render(request, 'mypage_update.html', {'user':user})
+    
+    
 # 타유저의 페이지 보기
 @login_required
 def userpage(request, user_id):
@@ -38,7 +58,7 @@ def signup(request):
                 password=request.POST['password1'], 
                 profile_image=request.FILES.get('profile_img', None),
                 bio=request.POST['bio'],
-                phone=request.POST['phone'], 
+                # phone=request.POST['phone'], 
                 gender=request.POST['gender'], 
                 profile_open=request.POST['profile_open'],
                 )
@@ -55,7 +75,7 @@ def indirect_login(request):
         global redirect_url
         redirect_url = request.GET.get('next')
         error_message = '로그인이 필요한 서비스입니다. 로그인해주세요.'
-        return render(request, 'login.html', {'error_message':error_message})
+        return render(request, 'login_indirect.html', {'error_message':error_message})
     elif request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -65,15 +85,15 @@ def indirect_login(request):
             return redirect(redirect_url)# 처음 요청이 들어왔던 페이지로 다시 리다이렉트(동적으로 변함)
         else:
             error_message = '일시적인 오류로 다시 로그인해주세요.'
-            return render(request, 'login.html', {'error_message':error_message})
+            return render(request, 'login_indirect.html', {'error_message':error_message})
     error_message = '잘못된 요청입니다. 다시 로그인해주세요.'  
-    return render(request, 'login.html', {'error_message':error_message})
+    return render(request, 'login_indirect.html', {'error_message':error_message})
 
 # 로그인 페이지에서 로그인 할 때
 def direct_login(request):
     if request.method == 'GET':
         error_message = '로그인페이지입니다.'
-        return render(request, 'login.html', {'error_message':error_message})
+        return render(request, 'login_direct.html', {'error_message':error_message})
     elif request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -82,7 +102,7 @@ def direct_login(request):
             auth.login(request, user)
             return render(request, 'index.html', {'user':user})
     error_message = '잘못된 요청입니다. 다시 로그인해주세요.'  
-    return render(request, 'login.html', {'error_message':error_message})
+    return render(request, 'login_direct.html', {'error_message':error_message})
         
 @login_required
 def logout(request):
@@ -108,55 +128,69 @@ def letter_post(request, user_id):
 # 받은 쪽지 보기(type='to') / 보낸 쪽지 보기(type='from')
 @login_required
 def letter_list(request, type):
+    likes = UserLike.objects.filter(userlike_to=request.user).count()
+    # 받은 편지함
     if type == 'to':
-        letter_to_list = Letter.objects.filter(letter_to=request.user, delete=False)
-        return render(request, 'letter_list.html', {'letters':letter_to_list})
+        letter_to_list = Letter.objects.filter(letter_to=request.user, delete_to=False)
+        return render(request, 'letter_list.html', {'letters':letter_to_list, 'type':type,'likes':likes})
+    # 보낸 편지함
     elif type == 'from':
-        letter_from_list = Letter.objects.filter(letter_from=request.user, delete=False)
-        return render(request, 'letter_list.html', {'letters':letter_from_list})
+        letter_from_list = Letter.objects.filter(letter_from=request.user, delete_from=False)
+        return render(request, 'letter_list.html', {'letters':letter_from_list, 'type':type, 'likes':likes})
  
 @login_required
 def letter_to_delete(request, letter_id):
     user = request.user
-    letter = get_object_or_404(Letter, id=letter_id)
-    letter.delete = True
-    letter.save()
-    if letter.letter_to == user: 
+    letter = get_object_or_404(Letter, id=letter_id) 
+    # 받은 쪽지 삭제
+    if letter.letter_to == user:
+        letter.delete_to = True
+        letter.save()
         return redirect('/users/letters/to/')
-    elif letter.letter_from == user:
-        return redirect('/users/letters/from/')
-
+    # 보낸 쪽지 삭제
+    else:
+        letter.delete_from = True
+        letter.save()
+        return redirect('/users/letters/from/')   
+    
 # 쪽지 상세보기
 @login_required
 def letter_detail(request, letter_id):
     user = request.user
     letter = Letter.objects.get(id=letter_id)
-    letter.check = True
-    letter.save()
-    return render(request, 'letter_detail.html', {'letter':letter, 'user':user})
+    # 받은 쪽지 확인
+    if letter.letter_to == user:
+        print("바뀜")
+        type = 'to'
+        letter.check_to = True
+        letter.save()
+    # 보낸 쪽지 삭제
+    elif letter.letter_from == user:
+        print("바뀜1")
+        type = 'from'  
+        letter.check_from = True
+        letter.save()
+    return render(request, 'letter_detail.html', {'letter':letter, 'user':user, 'type':type})
 
 # 유저 목록 (성별에 따른 검색 기능)
 def user_list(request):
-    users_all = User.objects.filter(profile_open=True)
-    paginator = Paginator(users_all, 5)
-    page = request.GET.get('page')
-    users_list = paginator.get_page(page)
-    return render(request, 'user_list.html', {'users_list':users_list})
+    users_list = User.objects.filter(profile_open=True)
+    gender = request.GET.get('gender', '')
+    if gender == "남자":
+        users_list = users_list.filter(gender="male", profile_open=True)
+    elif gender == "여자":
+        users_list = users_list.filter(gender="female", profile_open=True)
 
-def user_male(request):
-    users_find = User.objects.filter(gender='male', profile_open=True)
-    paginator = Paginator(users_find, 5)
+    paginator = Paginator(users_list, 5)
+    endPage = paginator.page_range
     page = request.GET.get('page')
-    users_list = paginator.get_page(page)
-    return render(request, 'user_list.html', {'users_list':users_list})
-
-def user_female(request):
-    users_find = User.objects.filter(gender='female', profile_open=True)
-    paginator = Paginator(users_find, 5)
-    page = request.GET.get('page')
-    users_list = paginator.get_page(page)
-    return render(request, 'user_list.html', {'users_list':users_list})
-
+    try:
+        users_list = paginator.page(page)
+    except PageNotAnInteger:
+        users_list = paginator.page(1)
+    except EmptyPage:
+        users_list = paginator.page(paginator.num_pages)
+    return render(request, 'user_list.html', {'users_list':users_list, 'endPage':endPage})
 
 # 유저에게 하트 보내기
 @login_required
@@ -173,3 +207,9 @@ def like_user(request, user_id):
         userlike.userlike_from = user
         userlike.save()
         return redirect('/users/' + str(like_user.id))
+    
+def privacy(request):
+    return render(request, 'privacy.html')
+
+def report(request):
+    return redirect('/users/1/')

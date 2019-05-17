@@ -1,0 +1,38 @@
+
+{% extends 'base.html' %}
+{% block title %}
+    <title>로그인</title>
+{% endblock %}
+{% block contents %}
+{% if error_message %}
+  <div class="row">
+    <div class="col s12 m6">
+      <div class="card white ">
+        <div class="card-content black-text">
+          <span class="card-title">로그인</span>
+          <p>{{error_message}}</p>
+        </div>
+      </div>
+    </div>
+</div>
+<!--<h2>{{error_message}}</h2> -->
+{% endif %}
+<div style="margin-left:10px; margin-right:10px">
+    <form method="POST" action="{% url 'users:indirect_login' %}">
+        {%csrf_token%}
+        Username:
+        <br>
+        <input name="username" type="text" value="">
+        <br>
+        Password:
+        <br>
+        <input name="password" type="password" value="">
+        <br>
+        <br>
+        <input class="btn btn-primary" type="submit" value="Login">
+    </form>
+</div>
+{% endblock %}
+
+
+

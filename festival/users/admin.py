@@ -3,17 +3,20 @@ from django.contrib.auth.admin import UserAdmin as AuthUserAdmin
 from . import models
 
 
+
+
 @admin.register(models.User)
 class UserAdmin(admin.ModelAdmin):
     list_display = (
         'id',
         'username',
+        'name',
         'gender',
         'profile_image',
     )
     fieldsets = AuthUserAdmin.fieldsets + (("유저 부가 정보", {
         "fields": (
-            "profile_image", "bio", "gender",
+            "name", "profile_image", "bio", "gender",
             )
         }),)
 
